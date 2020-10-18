@@ -1,14 +1,12 @@
 package com.example.rebound.data.db
 
 import android.content.Context
-import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.rebound.data.model.Message
 import com.example.rebound.util.Constants
 
 
-@Database(entities = [Message::class], version = 1)
+//@Database(entities = [Chat::class, User::class], version = 1)
 abstract class ReboundDatabase() : RoomDatabase() {
 
     abstract fun chatDao(): ChatDao
