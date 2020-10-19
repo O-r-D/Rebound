@@ -8,7 +8,7 @@
     android:layout_marginTop="2dp"
     android:layout_marginEnd="5dp"
     android:layout_marginBottom="2dp"
-    android:background="@drawable/home_user_image_radius"
+    android:background="@drawable/all_rounded_background"
     android:elevation="3dp"
     android:padding="3dp">
 
