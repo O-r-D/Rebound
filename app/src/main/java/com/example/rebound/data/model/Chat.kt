@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "chats")
-class Chat(
+data class Chat(
     @PrimaryKey(autoGenerate = true) private val uid: Long,
     val firstUserId: Long,
     val secondUserId: Long,

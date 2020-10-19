@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Rebound</string>
+    <string name="edit_text_hint">Write a text here to get it back</string>
 </resources>

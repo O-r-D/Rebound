@@ -1,12 +1,14 @@
 package com.example.rebound.ui.home
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rebound.R
 import com.example.rebound.data.model.Message
 import com.example.rebound.data.model.User
+import com.example.rebound.ui.chat.ChatActivity
+import com.example.rebound.util.Constants
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -45,6 +47,8 @@ class HomeActivity : AppCompatActivity(), UsersRVAdapter.OnItemClickListener {
     }
 
     override fun setOnItemClick(user: User) {
-        Toast.makeText(this, "You clicked ${user.username}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra(Constants.HOME_TO_CHAT_TAG, user)
+        startActivity(intent)
     }
 }

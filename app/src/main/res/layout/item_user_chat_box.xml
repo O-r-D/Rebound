@@ -41,11 +41,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                tools:text="Omar Raad"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Omar Raad" />
 
             <TextView
                 android:id="@+id/tv_date"
@@ -59,7 +59,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/tv_username"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Sun Oct 18 11:09:43 GMT+03:00" />
+                tools:text="22/10/2020" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
