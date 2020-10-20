@@ -8,6 +8,5 @@ import java.util.*
 data class Message(
     val uid: Long,
     val content: String?,
-    val date: Date,
-    val UserUID: Long
+    val date: Date
 ) : Parcelable

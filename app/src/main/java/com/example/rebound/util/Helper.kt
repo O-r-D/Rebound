@@ -1,5 +1,6 @@
 package com.example.rebound.util
 
+import android.content.res.Resources
 import android.text.format.DateFormat
 import java.util.*
 
@@ -16,4 +17,6 @@ object Helper {
             else -> DateFormat.format("dd/MM/yyyy", wantedDate)
         }
     }
+
+    fun dpToPixels(dp: Int) = (dp * Resources.getSystem().displayMetrics.density).toInt()
 }

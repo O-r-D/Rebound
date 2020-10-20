@@ -37,8 +37,7 @@ class HomeActivity : AppCompatActivity(), UsersRVAdapter.OnItemClickListener {
                     Message(
                         i.toLong(),
                         "This message is numbered $i",
-                        Date(2020 - 1900, 9, i),
-                        i.toLong()
+                        Date(2020 - 1900, 9, i)
                     )
                 )
             )

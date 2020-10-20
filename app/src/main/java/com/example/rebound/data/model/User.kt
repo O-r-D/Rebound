@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey(autoGenerate = true) private val uid: Long,
+    @PrimaryKey(autoGenerate = true) val uid: Long,
     val username: String?,
-    val lastMessage: Message
+    var lastMessage: Message
 ) : Parcelable
