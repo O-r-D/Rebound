@@ -11,8 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Rebound"
         tools:ignore="AllowBackup">
-        <activity android:name="com.ord.rebound.ui.chat.ChatActivity" />
-        <activity android:name="com.ord.rebound.ui.home.HomeActivity">
+        <activity
+            android:name="com.ord.rebound.ui.chat.ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.ord.rebound.ui.home.HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "chats")
 data class Chat(
-    @PrimaryKey(autoGenerate = true) private val uid: Long,
-    val firstUserId: Long,
-    val secondUserId: Long,
-    val messages: List<Message>
+    @PrimaryKey val uid: String,
+    val firstUserId: String,
+    val secondUserId: String,
+    val messages: ArrayList<Message>
 )

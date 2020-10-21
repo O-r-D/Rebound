@@ -5,5 +5,5 @@ object Constants {
     const val HOME_TO_CHAT_TAG = "home-to-chat"
     const val REBOUND_DB = "Rebound.db"
 
-    const val DEFAULT_USER_ID = 0
+    const val DEFAULT_USER_ID: String = "default-user"
 }

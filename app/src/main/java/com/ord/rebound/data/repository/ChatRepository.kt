@@ -5,7 +5,8 @@ import com.ord.rebound.data.model.Chat
 
 class ChatRepository private constructor(private val chatDao: ChatDao) {
 
-    fun getChat(firstUserId: Long, secondUserId: Long) = chatDao.getChat(firstUserId, secondUserId)
+    fun getChat(firstUserId: String, secondUserId: String) =
+        chatDao.getChat(firstUserId, secondUserId)
 
     fun insertChat(chat: Chat) = chatDao.insertChat(chat)
 

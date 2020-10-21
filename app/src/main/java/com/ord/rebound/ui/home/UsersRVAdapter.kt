@@ -39,7 +39,7 @@ class UsersRVAdapter(
 
                 tv_date.text = Helper.prettyPrintDate(Date(), user.lastMessage.date)
                 tv_message_content.text = user.lastMessage.content
-                iv_profile_image.setImageResource(R.mipmap.ic_launcher)
+                iv_profile_image.setImageResource(R.drawable.ic_profile)
 
                 setOnClickListener { onItemClickListener.setOnItemClick(user) }
             }

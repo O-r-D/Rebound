@@ -7,7 +7,7 @@ class UserRepository private constructor(private val userDao: UserDao) {
 
     fun getUsers() = userDao.getUsers()
 
-    fun getUser(uid: Long) = userDao.getUser(uid)
+    fun getUser(uid: String) = userDao.getUser(uid)
 
     fun insertUsers(users: List<User>) = userDao.insertUsers(users)
 

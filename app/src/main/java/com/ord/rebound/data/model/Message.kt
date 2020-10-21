@@ -6,7 +6,8 @@ import java.util.*
 
 @Parcelize
 data class Message(
-    val uid: Long,
+    val uid: String,
     val content: String?,
-    val date: Date
+    val date: Date,
+    val userUID: String
 ) : Parcelable
