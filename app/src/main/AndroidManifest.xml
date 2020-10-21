@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rebound">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ord.rebound">
 
     <application
         android:allowBackup="true"
@@ -8,9 +9,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Rebound">
-        <activity android:name=".ui.chat.ChatActivity" />
-        <activity android:name=".ui.home.HomeActivity">
+        android:theme="@style/Theme.Rebound"
+        tools:ignore="AllowBackup">
+        <activity android:name="com.ord.rebound.ui.chat.ChatActivity" />
+        <activity android:name="com.ord.rebound.ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
