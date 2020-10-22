@@ -3,7 +3,6 @@ package com.ord.rebound.ui.chat
 import android.os.Bundle
 import android.os.Handler
 import android.view.Gravity
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -85,10 +84,14 @@ class ChatActivity : AppCompatActivity() {
 
     private fun updateUI() {
         tv_appbar.text = if (user != null) user?.username else R.string.app_name.toString()
-        iv_appbar.setImageResource(R.drawable.ic_profile)
+
+        iv_appbar.apply {
+            setImageResource(R.drawable.ic_back)
+            setOnClickListener { finish() }
+        }
 
         et_message_input.addTextChangedListener(
-            onTextChanged = { charSequence: CharSequence?, start: Int, count: Int, after: Int ->
+            onTextChanged = { charSequence: CharSequence?, _: Int, _: Int, _: Int ->
                 if (!charSequence.isNullOrBlank() && charSequence.length < 46)
                     charSequence.replace(Regex(" "), "").length.toFloat()
                         .let { iv_send.animate().rotation(it) }
@@ -100,34 +103,43 @@ class ChatActivity : AppCompatActivity() {
             if (et_message_input.text.isNullOrBlank())
                 return@setOnClickListener
 
-            val defaultMessage =
+
+
+            chat?.messages?.add(                    // Add sent message to chat
                 Message(
                     UUID.randomUUID().toString(),
                     et_message_input.text.toString(),
                     Date(),
                     Constants.DEFAULT_USER_ID
                 )
-            chat?.messages?.add(defaultMessage)
+            )
 
-            val reboundedMessage = Message(
+
+            user!!.lastMessage = Message(
                 UUID.randomUUID().toString(),
                 et_message_input.text.toString(),
                 Date(),
                 user!!.uid
-            )
-            user!!.lastMessage = reboundedMessage
+            ).also {
+                showSenderMessage(it.content)       // Show sender message
 
-            showSenderMessage(defaultMessage.content)
-            chat?.messages?.add(reboundedMessage)
+                Handler(mainLooper).postDelayed({
+                    chat?.messages?.add(it)         // Add rebound message as last message of user
+                    showReceiverMessage(it.content) // Show receiver message
+                }, 500)
 
-            Handler(mainLooper).postDelayed({
-                showReceiverMessage(defaultMessage.content)
-            }, 700)
+                Handler(mainLooper).postDelayed({
+                    chat?.messages?.add(it)         // Add rebound message as last message of user
+                    showReceiverMessage(it.content) // Show receiver message
+                }, 1000)
+
+            }
+
         }
     }
 
-    private fun showSenderMessage(content: String?) {
-        TextView(this).apply {
+    private fun showSenderMessage(content: String?) =
+        with(TextView(this), {
             background = ContextCompat.getDrawable(context, R.drawable.chat_message_box_sender)
 
             val padding = Helper.dpToPixels(18)
@@ -136,14 +148,14 @@ class ChatActivity : AppCompatActivity() {
             setTextColor(ContextCompat.getColor(context, R.color.black))
             text = content
 
-            val layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.setMargins(0, Helper.dpToPixels(10), Helper.dpToPixels(6), 0)
-            layoutParams.gravity = Gravity.END
-            layoutParams.weight = 6f
-            setLayoutParams(layoutParams)
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, Helper.dpToPixels(10), Helper.dpToPixels(6), 0)
+                gravity = Gravity.END
+                weight = 6f
+            }.let { layoutParams = it }
 
 
             ll_message_boxes.addView(this)
@@ -151,11 +163,9 @@ class ChatActivity : AppCompatActivity() {
             et_message_input.setText("")
 
             sv_chat.post { sv_chat.fullScroll(ScrollView.FOCUS_DOWN) }
-        }
+        })
 
-    }
-
-    private fun showReceiverMessage(content: String?) {
+    private fun showReceiverMessage(content: String?) =
         with(TextView(this), {
             background =
                 ContextCompat.getDrawable(context, R.drawable.chat_message_box_receiver)
@@ -166,20 +176,18 @@ class ChatActivity : AppCompatActivity() {
             setTextColor(ContextCompat.getColor(context, R.color.black))
             text = content
 
-            val layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.setMargins(Helper.dpToPixels(6), Helper.dpToPixels(10), 0, 0)
-            layoutParams.gravity = Gravity.START
-            layoutParams.weight = 6f
-            setLayoutParams(layoutParams)
-
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(Helper.dpToPixels(6), Helper.dpToPixels(10), 0, 0)
+                gravity = Gravity.START
+                weight = 6f
+            }.let { layoutParams = it }
 
             ll_message_boxes.addView(this)
             sv_chat.post { sv_chat.fullScroll(ScrollView.FOCUS_DOWN) }
         })
-    }
 
     override fun onStop() {
         super.onStop()
