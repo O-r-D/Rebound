@@ -11,12 +11,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import com.ord.rebound.R
 import com.ord.rebound.data.model.Chat
 import com.ord.rebound.data.model.Message
 import com.ord.rebound.data.model.User
+import com.ord.rebound.ui.home.UserViewModel
 import com.ord.rebound.util.Constants
 import com.ord.rebound.util.Helper
+import com.ord.rebound.util.Injector
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.layout_actionbar.*
 import java.util.*
@@ -26,7 +29,8 @@ class ChatActivity : AppCompatActivity() {
 
     private var user: User? = null
     private var chat: Chat? = null
-//    private lateinit var viewModel: ChatViewModel
+    private lateinit var chatViewModel: ChatViewModel
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +39,16 @@ class ChatActivity : AppCompatActivity() {
         if (intent.hasExtra(Constants.HOME_TO_CHAT_TAG))
             user = intent.getParcelableExtra(Constants.HOME_TO_CHAT_TAG)
 
-//        viewModel = ViewModelProvider(
-//            viewModelStore,
-//            Injector.provideChatVMFactory()
-//        ).get(ChatViewModel::class.java)
+        chatViewModel = ViewModelProvider(
+            viewModelStore,
+            Injector.provideChatVMFactory(this)
+        ).get(ChatViewModel::class.java)
+
+        userViewModel = ViewModelProvider(
+            viewModelStore,
+            Injector.provideUserVMFactory(this)
+        ).get(UserViewModel::class.java)
+
 
         checkChat()
         updateUI()
@@ -48,7 +58,8 @@ class ChatActivity : AppCompatActivity() {
         if (user == null)
             Toast.makeText(this, "USER NOT FOUND", Toast.LENGTH_SHORT).show().also { finish() }
 
-//        chat = viewModel.getChat(Constants.DEFAULT_USER_ID, user!!.uid)
+        chat = chatViewModel.getChat(Constants.DEFAULT_USER_ID, user!!.uid)
+
 
         if (chat == null || chat?.messages.isNullOrEmpty()) {
             chat = Chat(
@@ -61,9 +72,14 @@ class ChatActivity : AppCompatActivity() {
         }
 
         for (message in chat!!.messages)
+
             when (message.userUID) {
-                Constants.DEFAULT_USER_ID -> showSenderMessage(message.content)
-                user!!.uid -> showReceiverMessage(message.content)
+                Constants.DEFAULT_USER_ID -> {
+                    showSenderMessage(message.content)
+                }
+                user!!.uid -> {
+                    showReceiverMessage(message.content)
+                }
             }
     }
 
@@ -102,7 +118,7 @@ class ChatActivity : AppCompatActivity() {
             user!!.lastMessage = reboundedMessage
 
             showSenderMessage(defaultMessage.content)
-            chat?.messages?.add(defaultMessage)
+            chat?.messages?.add(reboundedMessage)
 
             Handler(mainLooper).postDelayed({
                 showReceiverMessage(defaultMessage.content)
@@ -165,8 +181,9 @@ class ChatActivity : AppCompatActivity() {
         })
     }
 
-//    override fun onStop() {
-//        super.onStop()
-//        chat?.let { viewModel.insertChat(it) }
-//    }
+    override fun onStop() {
+        super.onStop()
+        chat?.let { chatViewModel.insertChat(it) }
+        userViewModel.insertUser(user!!)
+    }
 }

@@ -11,4 +11,6 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
     fun getUser(uid: String) = repository.getUser(uid)
 
     fun insertUsers(users: List<User>) = repository.insertUsers(users)
+
+    fun insertUser(user: User) = repository.insertUser(user)
 }

@@ -14,8 +14,8 @@ class ChatRepository private constructor(private val chatDao: ChatDao) {
     companion object {
         private var instance: ChatRepository? = null
 
-        operator fun invoke(): ChatRepository = instance ?: synchronized(this) {
-            instance ?: ChatRepository().also {
+        operator fun invoke(chatDao: ChatDao): ChatRepository = instance ?: synchronized(this) {
+            instance ?: ChatRepository(chatDao).also {
                 instance = it
             }
         }

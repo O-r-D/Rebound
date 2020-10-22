@@ -11,11 +11,13 @@ class UserRepository private constructor(private val userDao: UserDao) {
 
     fun insertUsers(users: List<User>) = userDao.insertUsers(users)
 
+    fun insertUser(user: User) = userDao.inserUser(user)
+
     companion object {
         private var instance: UserRepository? = null
 
-        operator fun invoke(): UserRepository = instance ?: synchronized(this) {
-            instance ?: UserRepository().also { instance = it }
+        operator fun invoke(userDao: UserDao): UserRepository = instance ?: synchronized(this) {
+            instance ?: UserRepository(userDao).also { instance = it }
         }
     }
 }

@@ -37,7 +37,12 @@ class UsersRVAdapter(
             itemView.apply {
                 tv_username.text = user.username
 
-                tv_date.text = Helper.prettyPrintDate(Date(), user.lastMessage.date)
+                tv_date.text = user.lastMessage.date.let {
+                    if (it != null)
+                        Helper.prettyPrintDate(Date(), it)
+                    else
+                        ""
+                }
                 tv_message_content.text = user.lastMessage.content
                 iv_profile_image.setImageResource(R.drawable.ic_profile)
 

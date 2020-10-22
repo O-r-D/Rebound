@@ -20,7 +20,7 @@ abstract class ReboundDatabase : RoomDatabase() {
         @Volatile
         private var instance: ReboundDatabase? = null
 
-        fun getInstance(context: Context): ReboundDatabase = instance ?: synchronized(this) {
+        operator fun invoke(context: Context): ReboundDatabase = instance ?: synchronized(this) {
             instance ?: Room.databaseBuilder(
                 context,
                 ReboundDatabase::class.java,
